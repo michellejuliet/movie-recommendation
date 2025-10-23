@@ -1,4 +1,4 @@
-# Contributing to CONTRIBUTING.md
+# CONTRIBUTING
 
 First off, thanks for taking the time to contribute! 
 
@@ -121,12 +121,202 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 
 ### Your First Code Contribution
 
+Thanks for wanting to contribute! Here’s a clear, low-friction path to make your first contribution successful.
+
+1. Find something to work on
+Look for issues labeled good first issue or help wanted.
+If nothing exists, check issues for small bugs or documentation tasks you can tackle.
+
+2. Claim the issue
+Leave a short comment on the issue: “I’d like to work on this” and mention your GitHub handle. This avoids duplicate work.
+
+3. Fork → Clone → Setup
+```
+# fork repo on GitHub, then:
+git clone https://github.com/<your-username>/movie-recommendation.git
+cd movie-recommendation
+# follow README for install
+pip install -r requirements.txt   # Python repo
+# or for server repo:
+npm install
+```
+
+4. Create a feature branch
+Branch names should be descriptive and follow the pattern:
+```
+<type>/<short-description>-<issue-number>
+# examples:
+feat/add-recommendation-endpoint-42
+fix/readme-typo-17
+```
+```
+git checkout -b feat/add-recommendation-endpoint-42
+```
+
+5. Make small, focused changes
+One logical change per PR.
+Write tests for behavior changes (unit / integration) and ensure existing tests pass.
+Run linters/formatters before committing.
+
+6. Run tests & linters
+Examples:
+```
+# Python
+pytest
+flake8
+
+# Node/TS
+npm test
+npm run lint
+```
+
+7. Commit & push
+Follow the Commit Messages rules below. Push your branch:
+```
+git push origin feat/add-recommendation-endpoint-42
+```
+
+8. Open a Pull Request
+Base: `main` (or `develop` if the repo uses it).
+Title: short + references issue (`#42`).
+Body: describe what you changed, why, and how to test. Link the issue: `Fixes #42` if applicable.
+Add screenshots or sample output for UI / notebook changes.
+
+9. Respond to review
+Address comments with small commits or force-push a rebased branch (`git rebase`) if requested.
+Keep the conversation polite and focused.
+
+10. After merge
+Pull latest `main` locally and delete your branch:
+```
+git checkout main
+git pull upstream main
+git branch -d feat/add-recommendation-endpoint-42
+git push origin --delete feat/add-recommendation-endpoint-42
+```
 
 ### Improving The Documentation
+Good documentation reduces friction massively. Here’s how contributors can help and what to expect.
 
+**Areas to improve**
+- README examples (how to run, minimal example, expected outputs)
+- `NOTES.md` or `USAGE.md` for complex flows (data prep, training, serving)
+- Inline code comments & docstrings
+- Notebook cleanup: remove sensitive/hardcoded paths, add a top “Run this first” block
+- Add or improve `CONTRIBUTING.md` (you’re reading it 😉)
+- Add architecture diagrams (e.g., `docs/diagrams/`)
+
+**Documentation standards**
+- Keep docs in Markdown (.md). Use short paragraphs, bullet lists, and code blocks.
+- Include a short “Getting started” section with:
+    - Environment setup
+    - How to run tests
+    - How to train / run model
+    - How to serve model locally
+- Add reproducible examples: commands that copy/paste and run.
+
+**Doc PR checklist (use in PR description)**
+- [ ] README updated (if needed)
+- [ ] Examples tested locally
+- [ ] Notebooks runnable from project root (relative paths)
+- [ ] No personal/local absolute paths or secrets
+- [ ] Added/updated `requirements.txt` or `package.json` if new deps
+
+**Doc formatting & tooling**
+- Prefer lightweight diagrams (draw.io, mermaid). Store diagram sources (if any).
+- If documentation grows, consider `mkdocs` or Sphinx for a docs site later.
 
 ## Styleguides
+Consistency is key. Below are the recommended style rules for both repositories (ML and server).
+
+**Python (ML repo)**
+- Formatting: *Black* (opinionated formatter)
+```
+pip install black
+black .
+```
+- Imports: *isort* for sorted imports.
+```
+pip install isort
+isort .
+```
+- Linting: *flake8* or *pylint* for static checks.
+```
+pip install flake8
+flake8 .
+```
+- Type hints: Use mypy optionally for critical modules.
+- Docstrings: Google style or NumPy style. Keep consistent.
+- Tests: pytest with fixtures and clear assertions.
+- Jupyter notebooks: keep one cleaned notebook per analysis; use nbstripout to strip outputs when committing or include cleared outputs.
+
+**TypeScript / Node (server repo)**
+- Formatting: Prettier (publish configuration in `.prettierrc`).
+- Linting: ESLint with TypeScript rules enabled.
+- Typing: `strict` mode in `tsconfig.json` recommended.
+- Code style: follow Airbnb/Google-ish rules adapted to project (document exceptions).
+- Tests: Jest (unit tests) and supertest (endpoint tests).
+
+**Naming & structure conventions**
+- File names: `snake_case` for Python modules, `kebab-case` or `camelCase` for JS/TS files as your existing style prefers — be consistent.
+- Branch names: see “Your First Code Contribution.”
+- Configuration: store secrets in environment variables and provide `.env.example`.
+
+**Automated checks (recommended)**
+- Configure CI (GitHub Actions) to run:
+    - Linter
+    - Formatter check
+    - Tests
+    - Basic static analysis
+
 ### Commit Messages
+We use Conventional Commits. This makes changelogs and automation easier.
+**Format**
+```
+<type>(<scope>): <short summary>
 
+<body>          # optional, more explanation, wrap at ~72 chars
+<footer>        # optional, reference issues: Closes #42
+```
 
-## Join The Project Team
+**Types (common)**
+- `feat`: a new feature
+- `fix`: a bug fix
+- `docs`: documentation only changes
+- `style`: formatting, missing semi-colons, etc (no code changes)
+- `refactor`: code change that neither fixes a bug nor adds a feature
+- `perf`: performance improvement
+- `test`: adding or fixing tests
+- `chore`: build process or auxiliary tool changes
+
+**Examples**
+```
+feat(recommender): add content-based recommend function
+
+Adds a simple TF-IDF genre similarity-based recommender. This
+is intended as a baseline until collaborative filtering is integrated.
+
+Closes #73
+```
+
+```
+fix(readme): correct dataset instructions
+
+Clarified how to download and place MovieLens datasets in /data/raw.
+```
+
+```
+docs(contributing): add contributing checklist
+```
+
+**Best practices**
+- Keep subject line ≤ 72 characters.
+- Use imperative mood: “Add”, “Fix”, “Update”.
+- Use the body to explain why (not just what).
+- Reference issues in the footer (Closes #12, Refs #36).
+- Sign commits if project requires DCO (--signoff).
+
+**Squash vs. preserve history**
+- Small PRs: keep atomic commits.
+- If requested by maintainers, squash into one meaningful commit before merge.
+- Use git rebase -i to clean up local history before pushing.

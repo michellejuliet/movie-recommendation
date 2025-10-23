@@ -17,12 +17,46 @@ This ML service is part of a polyrepo setup, where the frontend and backend comp
 
 ## Project Structure
 ```
-/movie-recommendation
-├── /data/                # Raw and preprocessed datasets
-├── /scripts/             # Training scripts, data preprocessing, model evaluations
-├── /model/               # Pre-trained models and model definitions
-├── /notebooks/           # Jupyter notebooks for research and prototyping
-└── README.md             # This file
+movie-recommendation/
+├── data/                     # Raw and preprocessed datasets
+│   ├── raw/                  # Original datasets (movies.dat, ratings.dat, etc.)
+│   └── processed/            # Cleaned and preprocessed data
+│
+├── notebooks/                # Jupyter notebooks for research and prototyping
+│   ├── recommender.ipynb     # Prototyping and experimentation notebooks
+│   └── exploratory.ipynb
+│
+├── model/                    # Pre-trained models and model definitions
+│   ├── artifacts/            # Trained models (e.g., .pkl, .joblib, .onnx)
+│   ├── recommender.py        # Model class definition
+│   ├── trainer.py            # Model training pipeline
+│   └── inference.py          # Model inference (used in serving)
+│
+├── scripts/                  # Training scripts, data preprocessing, model evaluations
+│   ├── preprocess_data.py    # Data preprocessing
+│   ├── train_model.py        # Training entry point
+│   ├── evaluate_model.py     # Model evaluation
+│   └── serve_model.py        # Simple Flask/FastAPI endpoint for serving
+│
+├── app/                      # Lightweight API layer (if using FastAPI/Flask)
+│   ├── main.py               # Entry point for the model API
+│   ├── routes/
+│   │   └── recommend.py      # Endpoint: /recommend?user_id=123
+│   ├── services/
+│   │   └── recommender_service.py
+│   └── utils/
+│       └── helpers.py
+│
+├── tests/
+│   ├── test_data_preprocessing.py
+│   ├── test_recommender_model.py
+│   └── test_api.py
+│
+├── requirements.txt
+├── .gitignore
+├── README.md                  # This file
+├── CONTRIBUTING.md
+└── LICENSE
 ```
 
 ## How It Works
